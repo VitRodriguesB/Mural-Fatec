@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $login = $_POST['login'];
     $senha = $_POST['senha'];
 
-    // Procura o utilizador no banco de dados (Tabela usuarios)
+    // Procura o utilizador no banco de dados
     $sql = "SELECT * FROM usuarios WHERE login = :login AND senha = :senha";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['login' => $login, 'senha' => $senha]);
@@ -39,48 +39,86 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Gestão Administrativa Fatec</title>
+    <title>Login - Mural Digital Fatec</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .login-container { margin-top: 100px; max-width: 400px; }
-        .card { border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .card-header { background-color: #b00000; color: white; border-radius: 12px 12px 0 0 !important; }
-        .btn-fatec { background-color: #b00000; color: white; border: none; }
-        .btn-fatec:hover { background-color: #8a0000; color: white; }
+        :root { --fatec: #b00000; }
+        body { 
+            background: #f4f7f6; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card { 
+            border: none; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+        .card-header { 
+            background: var(--fatec); 
+            color: white; 
+            border: none;
+            padding: 2rem 1rem;
+        }
+        .btn-fatec { 
+            background: var(--fatec); 
+            color: white; 
+            border: none;
+            padding: 12px;
+            transition: 0.3s;
+        }
+        .btn-fatec:hover { 
+            background: #8a0000; 
+            color: white; 
+            transform: translateY(-2px);
+        }
+        .form-control:focus {
+            border-color: var(--fatec);
+            box-shadow: 0 0 0 0.25rem rgba(176, 0, 0, 0.25);
+        }
     </style>
 </head>
 <body>
 
-<div class="container d-flex justify-content-center">
-    <div class="login-container w-100">
-        <div class="card">
-            <div class="card-header text-center py-3">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card p-0">
+            <div class="card-header text-center">
                 <h4 class="mb-0 fw-bold">Mural Digital Fatec</h4>
-                <small>Gestão Administrativa</small>
+                <small class="opacity-75">Gestão Administrativa</small>
             </div>
             <div class="card-body p-4">
                 
                 <?php if ($erro): ?>
-                    <div class="alert alert-danger text-center small"><?= $erro ?></div>
+                    <div class="alert alert-danger text-center small py-2"><?= $erro ?></div>
                 <?php endif; ?>
 
                 <form method="POST">
                     <div class="mb-3">
-                        <label class="form-label fw-bold small">Utilizador</label>
+                        <label class="form-label fw-bold small text-muted">Utilizador</label>
                         <input type="text" name="login" class="form-control" placeholder="Ex: admin" required>
                     </div>
                     <div class="mb-4">
-                        <label class="form-label fw-bold small">Senha</label>
+                        <label class="form-label fw-bold small text-muted">Senha</label>
                         <input type="password" name="senha" class="form-control" placeholder="••••••" required>
                     </div>
-                    <div class="d-grid">
+                    <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-fatec fw-bold">Entrar no Sistema</button>
                     </div>
                 </form>
+
+                <div class="text-center mt-4">
+                    <span class="small text-muted">Não tem acesso?</span>
+                    <a href="cadastro.php" class="small fw-bold text-danger text-decoration-none ms-1">Cadastre-se aqui</a>
+                </div>
                 
             </div>
-            <div class="card-footer text-center text-muted small py-3">
+            <div class="card-footer text-center text-muted small py-3 bg-white border-0">
                 &copy; 2026 - Fatec Presidente Prudente
             </div>
         </div>
